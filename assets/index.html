@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Golang & Keycloak</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://heracles.eng.nutanix.com/auth/js/keycloak.js" charset="utf-8"></script>
+    <script src="assets/js/main.js" charset="utf-8"></script>
+  </head>
+
+  <body>
+
+    <h3 class="center-align blue-text text-darken-3">Golang auth with Keycloak OIDC</h3>
+
+    <hr/><br/><br/>
+    
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <div class="card darken-1">
+          <div class="card-content">
+
+            {{ if .AuthCode -}}
+              <table class="striped highlight">
+                <thead>
+                  <tr>
+                      <th>Key</th>
+                      <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    <td>Auth Code</td>
+                    <td>{{ .AuthCode }}</td>
+                  </tr>
+
+                  {{ with .AuthToken -}}
+                    <tr>
+                      <td>Access Token</td>
+                      <td>{{ .AccessToken }}</td>
+                    </tr>
+                    <tr>
+                      <td>Refresh Token</td>
+                      <td>{{ .RefreshToken }}</td>
+                    </tr>
+                    <tr>
+                      <td>Token expiry</td>
+                      <td>{{ .Expiry }}</td>
+                    </tr>
+                  {{- end }}
+
+                  <tr>
+                    <td>User info</td>
+                    <td>
+                      {{ range $key, $value := .UserData }}
+                        <li><strong>{{ $key }}</strong>: {{ $value }}</li>
+                      {{ end }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            {{- else }}
+              <p>You are unauthenticated. Please unauthenticate to get details.</p>
+            {{- end}}
+          </div>
+          <div class="card-action right-align">
+            {{if not .AuthToken -}}
+              <a class="waves-effect waves-light blue btn" href="/oidc/login">Authenticate</a>  
+            {{- else }}
+              <a class="waves-effect waves-light orange btn" href="#0" id="verifyToken">Verify token</a>
+              &nbsp;&nbsp;
+              <a class="waves-effect waves-light lime accent-4 btn" href="/oidc/refresh">Refresh token</a>
+            {{- end}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
