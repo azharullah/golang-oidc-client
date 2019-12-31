@@ -1,17 +1,18 @@
 # Golang Keycloak client
 
-This repo contains the sample code that can be used to authenticate microservices implemented in Golang against Keycloak (or any OIDC provider).
+This repo contains the code that can be used to authenticate microservices implemented in Golang against Keycloak (or any OIDC provider).
 
 ## About the app
 
-This app implements the logic to connect to an OIDC provider (Keycloak in this case) and fetch the authenticated user's information (name, email, username, roles, scopes, etc.). It also implements features like verifying an already acquired access token against the server and refreshing the token when before / after access expiry as long as the refresh token is valid.
+This app implements the logic to connect to an OIDC provider (Keycloak in this case) and fetch the authenticated user's information (name, email, username, roles, scopes, etc.). It also implements features like verifying an already acquired access token against the server and refreshing the token before / after the access token expires as long as the refresh token is valid.
 
 ### How is the app built?
 
-- The backend http server routes have been implemented in Golang
+- The backend http server routes have been implemented in Golang using the http module
 - The UI is a static page that is rendered using Golang templates
 - Styling is done using the Materialize CSS library
 - jQuery is being used for the Ajax calls to the backend server
+- The app uses Go modules for package management
 
 ## What can the app do?
 
@@ -27,16 +28,11 @@ For the app to work, create a new client (`golang-client` is the default name, b
 
 Change the `keyCloakServerURL` and other parameters accordingly in the `main.go` file.
 
-Install the app dependencies using
-```
-$ go mod
-"incubator" has been added to your repositories
-```
-
 Start the app server using
 ```
 $ go run main.go
 ```
+Since the app uses go modules package management, all of the dependencies are installed implicitly.
 The UI would come up at `0.0.0.0:3000`
 
 ## Contributing
